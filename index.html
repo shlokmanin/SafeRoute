@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SafeRoute — Smart Road Safety, Learner Preparation & Safety Awareness Platform">
+<title>SafeRoute — Drive Smart. Ride Safe. Know the Rules.</title>
+<style>
+:root{
+  --bg:#0b1220;--surface:#111a2b;--surface2:#172237;--text:#f7f9fc;--muted:#aab5c8;
+  --line:#26334a;--accent:#f7c948;--accent2:#ff9f1c;--green:#35d07f;--red:#ff5c68;
+  --blue:#58a6ff;--shadow:0 18px 50px rgba(0,0,0,.22);--radius:18px;
+}
+body.light{--bg:#f4f7fb;--surface:#fff;--surface2:#eef3f9;--text:#152033;--muted:#617087;--line:#dce4ef;--shadow:0 14px 38px rgba(25,44,75,.10)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+.container{width:min(1180px,calc(100% - 36px));margin:auto}
+header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav{height:72px;display:flex;align-items:center;gap:24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.25rem;white-space:nowrap}
+.logo-mark{width:38px;height:38px;border-radius:12px;background:var(--accent);color:#101827;display:grid;place-items:center;box-shadow:0 7px 20px rgba(247,201,72,.25)}
+.navlinks{display:flex;gap:5px;margin-left:auto}
+.navlinks a{padding:9px 11px;border-radius:10px;color:var(--muted);font-size:.91rem;font-weight:700}
+.navlinks a:hover,.navlinks a.active{background:var(--surface2);color:var(--text)}
+.nav-actions{display:flex;gap:8px}
+.icon-btn,.menu-btn{width:40px;height:40px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:11px}
+.menu-btn{display:none}
+.hero{padding:72px 0 52px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);padding:7px 11px;border-radius:999px;color:var(--muted);font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.dot{width:8px;height:8px;background:var(--green);border-radius:50%;box-shadow:0 0 0 5px rgba(53,208,127,.10)}
+h1{font-size:clamp(2.7rem,6vw,5.5rem);line-height:.98;letter-spacing:-.055em;margin:20px 0}
+h1 span{color:var(--accent)}
+.hero p{font-size:1.08rem;color:var(--muted);max-width:680px}
+.actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:26px}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--text);padding:12px 17px;border-radius:12px;font-weight:800;transition:.2s transform,.2s background,.2s border}
+.btn:hover{transform:translateY(-2px);border-color:#53627b}
+.btn.primary{background:var(--accent);color:#101827;border-color:var(--accent)}
+.btn.danger{background:rgba(255,92,104,.12);color:#ff8790;border-color:rgba(255,92,104,.35)}
+.btn.small{padding:8px 11px;font-size:.86rem}
+.hero-card{background:linear-gradient(145deg,var(--surface),var(--surface2));border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:var(--shadow);transform:rotate(1deg)}
+.dashboard-mini{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.metric{padding:16px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025)}
+.metric strong{font-size:1.7rem;display:block}.metric small{color:var(--muted)}
+.safe-indicator{margin-top:12px;padding:17px;border-radius:16px;background:rgba(53,208,127,.10);border:1px solid rgba(53,208,127,.22);display:flex;justify-content:space-between;align-items:center}
+.sign-visual{width:78px;height:78px;border-radius:50%;border:9px solid var(--red);display:grid;place-items:center;font-size:2rem;font-weight:900;background:#fff;color:#111}
+.section{padding:72px 0}
+.section.alt{background:var(--surface)}
+.section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:28px}
+.section-head h2{margin:0;font-size:clamp(1.9rem,4vw,3rem);letter-spacing:-.035em}
+.section-head p{color:var(--muted);max-width:620px;margin:8px 0 0}
+.grid{display:grid;gap:15px}.grid-4{grid-template-columns:repeat(4,1fr)}.grid-3{grid-template-columns:repeat(3,1fr)}.grid-2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 8px 28px rgba(0,0,0,.06)}
+.card h3{margin:10px 0 7px}.card p{color:var(--muted);margin:0}
+.feature-icon{font-size:1.7rem}.clickable{transition:.2s transform,.2s border}.clickable:hover{transform:translateY(-3px);border-color:#53627b}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0}.step{padding:20px;border-top:2px solid var(--line);position:relative}.step b{font-size:.75rem;color:var(--accent);letter-spacing:.08em}.step h3{margin:7px 0}.step p{color:var(--muted);font-size:.9rem}
+.tip{border:1px solid rgba(247,201,72,.3);background:rgba(247,201,72,.08);padding:20px;border-radius:var(--radius);display:flex;gap:15px;align-items:flex-start}
+.searchbar{display:flex;gap:10px;margin-bottom:18px}.searchbar input{flex:1}
+input,select{width:100%;padding:12px 13px;border-radius:11px;border:1px solid var(--line);background:var(--surface);color:var(--text);outline:none}
+input:focus,select:focus{border-color:var(--accent)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.chip{padding:8px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-weight:700;font-size:.82rem}
+.chip.active{background:var(--accent);color:#111827;border-color:var(--accent)}
+.sign-card{text-align:center}.sign-card .sign{width:74px;height:74px;margin:0 auto 12px;display:grid;place-items:center;background:#fff;color:#111;font-weight:900;font-size:1.55rem}
+.sign.mandatory{border:7px solid #2363d1;border-radius:50%}.sign.warning{border:7px solid #e24b4b;transform:rotate(45deg);border-radius:8px}.sign.warning span{transform:rotate(-45deg)}.sign.info{border:7px solid #2363d1;border-radius:6px}
+.sign-card small{color:var(--muted)}
+.learning-layout{display:grid;grid-template-columns:280px 1fr;gap:18px}.topic-list{display:grid;gap:8px;align-content:start}.topic-btn{text-align:left;padding:12px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:11px}.topic-btn.active{border-color:var(--accent);background:rgba(247,201,72,.08)}
+.detail{min-height:330px}.detail ul{padding-left:20px}.muted{color:var(--muted)}
+.notice{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface2);color:var(--muted);font-size:.9rem}
+.license-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.practice-shell{max-width:900px;margin:auto}.quiz-top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px}.progress{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden}.progress>i{display:block;height:100%;background:var(--accent);width:0;transition:.3s}
+.options{display:grid;gap:10px;margin:20px 0}.option{padding:15px;border:1px solid var(--line);border-radius:13px;background:var(--surface);color:var(--text);text-align:left}.option:hover{border-color:#66758f}.option.selected{border-color:var(--accent);background:rgba(247,201,72,.08)}.option.correct{border-color:var(--green);background:rgba(53,208,127,.1)}.option.wrong{border-color:var(--red);background:rgba(255,92,104,.1)}
+.quiz-controls{display:flex;justify-content:space-between;gap:10px}.timer{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:900}
+.result-score{font-size:4rem;font-weight:950;letter-spacing:-.06em}.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.bar-row{display:grid;grid-template-columns:130px 1fr 55px;gap:10px;align-items:center;margin:10px 0}.bar{height:9px;background:var(--surface2);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent)}
+.scenario-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.choice-grid{display:grid;gap:10px}.choice{padding:14px;border:1px solid var(--line);border-radius:13px;background:var(--surface);color:var(--text);text-align:left}.choice:hover{border-color:var(--accent)}
+.score-ring{width:170px;height:170px;border-radius:50%;display:grid;place-items:center;margin:15px auto;background:conic-gradient(var(--accent) var(--score,0%),var(--surface2) 0);position:relative}.score-ring:after{content:"";position:absolute;inset:12px;border-radius:50%;background:var(--surface)}.score-ring span{position:relative;z-index:1;font-size:2.3rem;font-weight:900}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.form-group label{display:block;font-size:.83rem;font-weight:800;margin-bottom:6px}
+.whatif{display:grid;grid-template-columns:320px 1fr;gap:20px;align-items:stretch}.slider-row{margin:18px 0}.slider-row label{display:flex;justify-content:space-between;font-weight:800}.slider-row input[type=range]{padding:0}
+.dashboard-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.dash-big{grid-column:span 2}.kpi{padding:18px}.kpi .num{font-size:2rem;font-weight:900}.kpi small{color:var(--muted)}
+.chart{display:grid;gap:10px;margin-top:10px}.badge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.badge{padding:17px;border:1px solid var(--line);border-radius:15px;opacity:.35;filter:grayscale(1)}.badge.unlocked{opacity:1;filter:none;border-color:rgba(247,201,72,.45);background:rgba(247,201,72,.06)}
+footer{border-top:1px solid var(--line);padding:40px 0;color:var(--muted)}.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:25px}.footer-grid h4{color:var(--text);margin-top:0}.footer-grid a{display:block;margin:7px 0;font-size:.9rem}.disclaimer{margin-top:25px;padding-top:20px;border-top:1px solid var(--line);font-size:.8rem}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;place-items:center;padding:20px;z-index:100}.modal.open{display:grid}.modal-box{width:min(720px,100%);max-height:88vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow)}.modal-head{display:flex;justify-content:space-between;gap:15px}.close{background:transparent;border:0;color:var(--muted);font-size:1.5rem}
+.toast{position:fixed;right:20px;bottom:20px;z-index:120;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);padding:13px 16px;border-radius:12px;transform:translateY(120px);transition:.3s}.toast.show{transform:translateY(0)}
+.hidden{display:none!important}.center{text-align:center}.success{color:var(--green)}.danger-text{color:var(--red)}.accent{color:var(--accent)}
+@media(max-width:950px){.hero-grid,.scenario-grid,.whatif{grid-template-columns:1fr}.grid-4,.dashboard-grid{grid-template-columns:repeat(2,1fr)}.grid-3,.license-grid{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}.learning-layout{grid-template-columns:1fr}.topic-list{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr}.navlinks{display:none}.menu-btn{display:block}.navlinks.open{display:flex;position:absolute;top:72px;left:0;right:0;padding:12px 18px;background:var(--bg);border-bottom:1px solid var(--line);flex-direction:column}.navlinks.open a{padding:12px}}
+@media(max-width:620px){.container{width:min(100% - 24px,1180px)}.hero{padding-top:45px}.grid-4,.grid-3,.grid-2,.license-grid,.dashboard-grid,.result-grid,.badge-grid,.form-grid,.steps{grid-template-columns:1fr}.dash-big{grid-column:span 1}.topic-list{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr}.section{padding:52px 0}.nav{height:64px}.navlinks.open{top:64px}h1{font-size:3rem}.hero-card{transform:none}.searchbar{flex-direction:column}.bar-row{grid-template-columns:100px 1fr 45px}.actions .btn{width:100%}.quiz-controls{flex-direction:column}.quiz-controls .btn{width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="logo" href="#home"><span class="logo-mark">🚦</span> SafeRoute</a>
+    <nav class="navlinks" id="navLinks">
+      <a href="#home">Home</a><a href="#learn">Learn</a><a href="#signs">Road Signs</a><a href="#licence">Licence Guide</a><a href="#practice">Practice</a><a href="#journey">Safe Journey</a><a href="#dashboard">Dashboard</a>
+    </nav>
+    <div class="nav-actions"><button class="icon-btn" id="themeBtn" aria-label="Toggle dark or light mode">☀️</button><button class="menu-btn" id="menuBtn" aria-label="Open navigation">☰</button></div>
+  </div>
+</header>
+
+<main id="home">
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow"><span class="dot"></span> Road-safety learning platform</span>
+      <h1>Drive Smart.<br><span>Ride Safe.</span><br>Know the Rules.</h1>
+      <p>Learn road safety, prepare for learner-style tests, understand licence concepts and practice safer decisions through interactive scenarios.</p>
+      <div class="actions">
+        <button class="btn primary" onclick="go('#learn')">Start Learning</button>
+        <button class="btn" onclick="startQuiz('quick')">Take Practice Test</button>
+        <button class="btn" onclick="go('#journey')">Check Journey Safety</button>
+      </div>
+      <div class="notice" style="margin-top:18px">LEARN → PRACTICE → ASSESS → IMPROVE → DRIVE SAFER</div>
+    </div>
+    <div class="hero-card">
+      <div class="dashboard-mini">
+        <div class="metric"><small>Safety Score</small><strong id="heroSafety">—</strong></div>
+        <div class="metric"><small>Quiz Accuracy</small><strong id="heroAccuracy">—</strong></div>
+        <div class="metric"><small>Signs Ready</small><strong>✓</strong></div>
+        <div class="metric"><small>Journey Check</small><strong>◎</strong></div>
+      </div>
+      <div class="safe-indicator"><div><b>Safety-first mode</b><br><small class="muted">Practice safer choices, not risky shortcuts.</small></div><div class="sign-visual">!</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+<div class="container">
+  <div class="section-head"><div><h2>Why SafeRoute?</h2><p>A focused learning-to-action journey designed for road-safety awareness and hackathon demonstrations.</p></div></div>
+  <div class="grid grid-4">
+    <div class="card"><div class="feature-icon">📚</div><h3>Learn Road Rules</h3><p>Understand everyday road-safety concepts in simple language.</p></div>
+    <div class="card"><div class="feature-icon">🎯</div><h3>Practice Questions</h3><p>Build confidence with learner-style MCQs and explanations.</p></div>
+    <div class="card"><div class="feature-icon">🛡️</div><h3>Assess Decisions</h3><p>Respond to realistic safety situations and compare choices.</p></div>
+    <div class="card"><div class="feature-icon">📈</div><h3>Track Progress</h3><p>Keep scores, achievements and learning progress locally.</p></div>
+  </div>
+</div>
+</section>
+
+<section class="section">
+<div class="container">
+  <div class="section-head"><div><h2>How it works</h2><p>One clear journey from knowledge to safer decisions.</p></div></div>
+  <div class="steps">
+    <div class="step"><b>01</b><h3>LEARN</h3><p>Explore rules, signs and licence concepts.</p></div>
+    <div class="step"><b>02</b><h3>PRACTICE</h3><p>Answer MCQs and test your knowledge.</p></div>
+    <div class="step"><b>03</b><h3>ASSESS</h3><p>Try scenarios and journey assessments.</p></div>
+    <div class="step"><b>04</b><h3>IMPROVE</h3><p>Use performance insights to focus revision.</p></div>
+  </div>
+</div>
+</section>
+
+<section class="section alt">
+<div class="container">
+  <div class="section-head"><div><h2>Everything in one place</h2><p>Designed to feel like a real product rather than a collection of static pages.</p></div></div>
+  <div class="grid grid-4">
+    <div class="card clickable" onclick="go('#learn')">📘 <h3>Learning Center</h3><p>Interactive road-safety topics.</p></div>
+    <div class="card clickable" onclick="go('#signs')">🚸 <h3>Road Signs</h3><p>Search, filter and test yourself.</p></div>
+    <div class="card clickable" onclick="go('#licence')">🪪 <h3>Licence Guide</h3><p>General learner and driving licence preparation.</p></div>
+    <div class="card clickable" onclick="go('#practice')">📝 <h3>Mock Tests</h3><p>Quick, standard and timed modes.</p></div>
+    <div class="card clickable" onclick="go('#scenarios')">🎭 <h3>Safety Scenarios</h3><p>What would you do?</p></div>
+    <div class="card clickable" onclick="go('#journey')">🧭 <h3>Safe Journey</h3><p>Scenario-based journey assessment.</p></div>
+    <div class="card clickable" onclick="go('#whatif')">🔀 <h3>What-If Simulator</h3><p>Change conditions and compare risk.</p></div>
+    <div class="card clickable" onclick="go('#dashboard')">📊 <h3>Progress Dashboard</h3><p>See your learning journey.</p></div>
+  </div>
+</div>
+</section>
+
+<section class="section">
+<div class="container">
+  <div class="tip"><div style="font-size:1.6rem">💡</div><div><b>Safety Tip of the Day</b><p id="dailyTip" style="margin:4px 0 0;color:var(--muted)"></p></div></div>
+</div>
+</section>
+
+<section class="section alt" id="learn">
+<div class="container">
+  <div class="section-head"><div><h2>Road Safety Learning Center</h2><p>Click a topic to learn the concept, common mistakes and a quick knowledge check.</p></div></div>
+  <div class="learning-layout">
+    <div class="topic-list" id="topicList"></div>
+    <div class="card detail" id="topicDetail"></div>
+  </div>
+</div>
+</section>
+
+<section class="section" id="signs">
+<div class="container">
+  <div class="section-head"><div><h2>Road Signs Center</h2><p>Learn visual meaning and expected driver behavior. These are educational examples, not a substitute for current official sign standards.</p></div><button class="btn primary" onclick="startSignTest()">Test Me</button></div>
+  <div class="searchbar"><input id="signSearch" placeholder="Search signs, meanings or actions..." oninput="renderSigns()"></div>
+  <div class="filters" id="signFilters"></div>
+  <div class="grid grid-4" id="signGrid"></div>
+</div>
+</section>
+
+<section class="section alt" id="licence">
+<div class="container">
+  <div class="section-head"><div><h2>Licence & RTO Guide</h2><p>General educational guidance only. Requirements and procedures can change by jurisdiction and time.</p></div></div>
+  <div class="grid grid-3">
+    <div class="card"><span class="feature-icon">🪪</span><h3>Learner's Licence</h3><p>A learner stage generally supports supervised learning before a full driving licence. Prepare by understanding road rules, signs and safe driving practices.</p><ul class="muted"><li>Understand eligibility concepts</li><li>Prepare for knowledge-style questions</li><li>Keep required documentation ready</li><li>Follow current official instructions</li></ul></div>
+    <div class="card"><span class="feature-icon">🚗</span><h3>Driving Licence</h3><p>The full-licence stage generally involves demonstrating driving ability and completing the applicable official process.</p><ul class="muted"><li>Build practical driving skills</li><li>Understand test expectations</li><li>Follow safe vehicle-control habits</li><li>Verify current procedure officially</li></ul></div>
+    <div class="card"><span class="feature-icon">🛵</span><h3>Vehicle Types</h3><p>Two-wheelers, four-wheelers and transport/commercial categories can have different requirements. Do not assume one category's process applies to another.</p><ul class="muted"><li>Two-Wheeler</li><li>Four-Wheeler</li><li>Transport / Commercial</li></ul></div>
+  </div>
+  <div class="notice" style="margin-top:16px"><b>Important:</b> SafeRoute deliberately does not invent licence fees, age thresholds, validity periods, penalties or exact government procedures. Verify current requirements through official government/RTO sources.</div>
+  <div class="actions"><button class="btn" onclick="toast('Use the official Parivahan/RTO portal for current information. No external link is embedded here.')">Verify Current Official Information</button></div>
+</div>
+</section>
+
+<section class="section" id="practice">
+<div class="container">
+  <div class="section-head"><div><h2>Practice Center</h2><p>Choose a mode. Answers are evaluated locally in your browser and saved to your progress.</p></div></div>
+  <div id="quizHome" class="grid grid-3">
+    <div class="card clickable" onclick="startQuiz('quick')"><h3>⚡ Quick Practice</h3><p>10 questions • untimed</p><button class="btn primary small" style="margin-top:15px">Start</button></div>
+    <div class="card clickable" onclick="startQuiz('standard')"><h3>🎯 Standard Practice</h3><p>20 questions • untimed</p><button class="btn primary small" style="margin-top:15px">Start</button></div>
+    <div class="card clickable" onclick="startQuiz('mock')"><h3>⏱️ Mock Test</h3><p>25 questions • timed</p><button class="btn primary small" style="margin-top:15px">Start</button></div>
+  </div>
+  <div id="quizArea" class="practice-shell hidden"></div>
+</div>
+</section>
+
+<section class="section alt" id="scenarios">
+<div class="container">
+  <div class="section-head"><div><h2>What Would You Do?</h2><p>Make a safety decision, see the reasoning and build your scenario score.</p></div></div>
+  <div id="scenarioArea"></div>
+</div>
+</section>
+
+<section class="section" id="journey">
+<div class="container">
+  <div class="section-head"><div><h2>Safe Journey</h2><p>A scenario-based educational assessment — not live traffic, GPS, weather or accident data.</p></div></div>
+  <div class="card">
+    <div class="form-grid">
+      <div class="form-group"><label>Starting point type</label><select id="jStart"><option>Home</option><option>School/College</option><option>Workplace</option><option>Other</option></select></div>
+      <div class="form-group"><label>Destination type</label><select id="jDest"><option>School/College</option><option>Workplace</option><option>Market</option><option>Other</option></select></div>
+      <div class="form-group"><label>Travel mode</label><select id="jMode"><option>Walking</option><option>Bicycle</option><option>Two-Wheeler</option><option>Four-Wheeler</option></select></div>
+      <div class="form-group"><label>Time</label><select id="jTime"><option>Day</option><option>Night</option></select></div>
+      <div class="form-group"><label>Weather</label><select id="jWeather"><option>Clear</option><option>Rain</option><option>Low Visibility</option></select></div>
+      <div class="form-group"><label>Road condition</label><select id="jRoad"><option>Normal</option><option>Wet</option><option>Poor Visibility</option></select></div>
+      <div class="form-group"><label>Experience</label><select id="jExp"><option>Beginner</option><option>Experienced</option></select></div>
+    </div>
+    <div class="actions"><button class="btn primary" onclick="assessJourney()">Assess Journey</button></div>
+    <div id="journeyResult" class="hidden" style="margin-top:22px"></div>
+  </div>
+</div>
+</section>
+
+<section class="section alt" id="whatif">
+<div class="container">
+  <div class="section-head"><div><h2>What If?</h2><p>Experiment with scenario variables and see how the educational safety assessment changes.</p></div></div>
+  <div class="whatif">
+    <div class="card">
+      <div class="form-group"><label>Vehicle</label><select id="wVehicle" onchange="calcWhatIf()"><option>Walking</option><option>Bicycle</option><option>Two-Wheeler</option><option>Four-Wheeler</option></select></div>
+      <div class="slider-row"><label>Time <span id="wTimeLabel">Night</span></label><input id="wTime" type="range" min="0" max="1" value="1" oninput="calcWhatIf()"></div>
+      <div class="slider-row"><label>Weather <span id="wWeatherLabel">Rain</span></label><input id="wWeather" type="range" min="0" max="1" value="1" oninput="calcWhatIf()"></div>
+      <div class="slider-row"><label>Experience <span id="wExpLabel">Beginner</span></label><input id="wExp" type="range" min="0" max="1" value="0" oninput="calcWhatIf()"></div>
+    </div>
+    <div class="card center">
+      <div class="score-ring" id="whatRing" style="--score:55%"><span id="whatScore">55</span></div>
+      <h3 id="whatRisk">Moderate scenario risk</h3>
+      <p id="whatText" class="muted">Changing environmental and behavior factors can affect the scenario-based safety assessment.</p>
+      <div id="whatFactors" class="notice" style="text-align:left"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="section" id="dashboard">
+<div class="container">
+  <div class="section-head"><div><h2>Personal Dashboard</h2><p>Your progress stays in this browser using LocalStorage. No account is required.</p></div><button class="btn danger small" onclick="resetProgress()">Reset My Progress</button></div>
+  <div class="dashboard-grid">
+    <div class="card kpi"><small>Overall Safety Score</small><div class="num" id="dSafety">—</div></div>
+    <div class="card kpi"><small>Quiz Accuracy</small><div class="num" id="dAccuracy">—</div></div>
+    <div class="card kpi"><small>Tests Completed</small><div class="num" id="dTests">0</div></div>
+    <div class="card kpi"><small>Questions Attempted</small><div class="num" id="dQuestions">0</div></div>
+    <div class="card dash-big"><h3>Topic Performance</h3><div id="topicChart" class="chart"></div></div>
+    <div class="card dash-big"><h3>Learning Progress</h3><div id="learningChart"></div></div>
+    <div class="card dash-big"><h3>Insights</h3><div id="insights"></div></div>
+    <div class="card dash-big"><h3>Achievements</h3><div class="badge-grid" id="badges"></div></div>
+  </div>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="container">
+  <div class="footer-grid">
+    <div><div class="logo"><span class="logo-mark">🚦</span> SafeRoute</div><p>Smart Road Safety, Learner Preparation & Safety Awareness Platform.</p></div>
+    <div><h4>Quick Links</h4><a href="#learn">Learn</a><a href="#signs">Road Signs</a><a href="#licence">Licence Guide</a><a href="#practice">Practice</a></div>
+    <div><h4>Safety Resources</h4><a href="#journey">Safe Journey</a><a href="#whatif">What-If</a><a href="#scenarios">Scenarios</a><a href="#dashboard">Dashboard</a></div>
+    <div><h4>About</h4><a href="#home">SafeRoute</a><a href="#licence">Educational Guidance</a><a href="#dashboard">My Progress</a></div>
+  </div>
+  <div class="disclaimer">SafeRoute is an educational road-safety and learner-preparation platform. It is not an official government/RTO service. Traffic rules, licence requirements, fees, procedures and other regulations may change. Always verify current information with official government/RTO sources. Practice results do not guarantee success in any official test.</div>
+  <div style="margin-top:15px;font-size:.8rem">© 2026 SafeRoute • Built as a frontend-only educational application.</div>
+</div>
+</footer>
+
+<div class="modal" id="modal"><div class="modal-box"><div class="modal-head"><div id="modalContent"></div><button class="close" onclick="closeModal()" aria-label="Close">×</button></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+/* ---------- Local state ---------- */
+const STORE_KEY="saferoute_state_v1";
+const defaultState={
+  tests:[], topicScores:{}, learning:{}, scenarioScores:[], bestScore:0,
+  achievements:{}, theme:"dark", questionsAttempted:0, correctAnswers:0
+};
+let state=loadState();
+function loadState(){
+  try{return {...defaultState,...JSON.parse(localStorage.getItem(STORE_KEY)||"{}")};}
+  catch(e){return {...defaultState};}
+}
+function saveState(){localStorage.setItem(STORE_KEY,JSON.stringify(state));updateDashboard();}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.remove("show"),2600)}
+function go(id){document.querySelector(id)?.scrollIntoView({behavior:"smooth"});document.querySelectorAll(".navlinks a").forEach(a=>a.classList.toggle("active",a.getAttribute("href")===id))}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+
+/* ---------- Theme / navigation ---------- */
+function applyTheme(){document.body.classList.toggle("light",state.theme==="light");document.getElementById("themeBtn").textContent=state.theme==="light"?"🌙":"☀️"}
+document.getElementById("themeBtn").onclick=()=>{state.theme=state.theme==="light"?"dark":"light";saveState();applyTheme()};
+document.getElementById("menuBtn").onclick=()=>document.getElementById("navLinks").classList.toggle("open");
+document.querySelectorAll(".navlinks a").forEach(a=>a.addEventListener("click",()=>document.getElementById("navLinks").classList.remove("open")));
+applyTheme();
+
+/* ---------- Safety tips ---------- */
+const tips=[
+"Stay focused on the road and avoid using a phone while moving.",
+"Use appropriate protective equipment and make sure it is properly fitted.",
+"Slow down when visibility or road conditions are reduced.",
+"Respect pedestrians, crossings, signals and right-of-way rules.",
+"Leave enough space to react safely to the vehicle ahead.",
+"Plan your journey so you are not rushed or tempted to take unsafe shortcuts.",
+"Never let fatigue turn a short trip into a risky trip.",
+"Before moving, check that your vehicle and surroundings are safe."
+];
+document.getElementById("dailyTip").textContent=tips[Math.floor(Math.random()*tips.length)];
+
+/* ---------- Learning center ---------- */
+const topics=[
+{t:"Traffic Signals",i:"🚦",e:"Understand signal colors and why predictable compliance matters.",p:["Stop when required by the signal.","Proceed only when permitted and safe.","Watch for pedestrians and other road users."],s:"Treat signals as part of a larger scene: scan before moving.",m:"Rushing through a changing signal because the road looks empty.",q:"What is the safest approach when a signal requires you to stop?",a:"Stop at the appropriate location and wait until movement is permitted."},
+{t:"Lane Discipline",i:"🛣️",e:"Use lanes consistently and make changes only when safe.",p:["Maintain a predictable path.","Check surroundings before changing lanes.","Use appropriate indicators where required."],s:"Predictability helps every road user anticipate your movement.",m:"Changing lanes abruptly without checking surroundings.",q:"Why is predictable lane positioning important?",a:"It helps other road users anticipate your movement."},
+{t:"Safe Following Distance",i:"↔️",e:"Keep enough space to respond if traffic slows suddenly.",p:["Increase space when conditions reduce visibility or grip.","Look beyond the vehicle immediately ahead.","Avoid tailgating."],s:"More uncertainty means more time and space are valuable.",m:"Following so closely that there is no comfortable stopping space.",q:"When should you increase following distance?",a:"When visibility, road conditions or traffic uncertainty increase."},
+{t:"Seat Belts",i:"🪢",e:"Seat belts are a fundamental protective measure for vehicle occupants.",p:["Wear the belt correctly.","Make sure it is properly positioned.","Use restraints appropriate to the occupant and vehicle."],s:"Make belt use a routine before the vehicle moves.",m:"Treating a short trip as an exception.",q:"When should a seat belt be used?",a:"As a routine safety step before travelling in a vehicle where a seat belt is provided."},
+{t:"Helmets",i:"⛑️",e:"Two-wheeler riders need appropriate protective equipment and safe riding habits.",p:["Use an appropriate, properly fitted helmet.","Secure it correctly.","Combine protective equipment with defensive riding."],s:"A helmet is only useful when it is suitable and correctly secured.",m:"Riding with an unsecured or unsuitable helmet.",q:"What makes helmet use more effective?",a:"Using a suitable helmet and securing it correctly."},
+{t:"Mobile Phone Distraction",i:"📵",e:"Distraction reduces attention available for detecting and responding to hazards.",p:["Do not interact with a phone while moving.","Set up navigation before starting when possible.","Stop safely before dealing with a non-urgent phone task."],s:"A notification can wait; a hazard may not.",m:"Glancing at a screen because the trip is short.",q:"What is the safer response to a phone notification while driving?",a:"Ignore it until you can safely stop and deal with it."},
+{t:"Speed Management",i:"⚠️",e:"Safe speed is about maintaining control and adapting to conditions, not simply following a number.",p:["Adapt speed to conditions.","Allow time to react.","Be especially cautious around vulnerable road users."],s:"A lower speed can provide more time to detect and respond to hazards.",m:"Assuming the posted limit is always the safest speed for every condition.",q:"Why can conditions require a lower speed?",a:"They can reduce visibility, grip or available reaction time."},
+{t:"Pedestrian Safety",i:"🚶",e:"Pedestrians can be vulnerable and their movements may be less predictable.",p:["Scan crossings and roadside areas.","Yield or stop where rules require.","Avoid blocking pedestrian paths."],s:"Expect people to make mistakes and leave room to respond.",m:"Focusing only on vehicles and overlooking pedestrians.",q:"What should drivers scan for near crossings?",a:"Pedestrians, crossing behavior and other road users."},
+{t:"Night Driving",i:"🌙",e:"Reduced visibility requires more deliberate scanning and speed management.",p:["Keep attention on the road environment.","Reduce speed when visibility is poor.","Be alert for pedestrians, cyclists and poorly visible hazards."],s:"Do not let familiarity with a road create overconfidence at night.",m:"Driving at the same pace despite reduced visibility.",q:"What is a useful night-driving principle?",a:"Adapt speed and attention to the visibility available."},
+{t:"Rain Safety",i:"🌧️",e:"Wet conditions can change visibility and available grip.",p:["Reduce speed appropriately.","Increase space to react.","Use lights and visibility measures appropriately."],s:"Smooth inputs and extra space are valuable when roads are wet.",m:"Braking or steering abruptly on a wet road.",q:"What can rain change?",a:"Visibility, grip and the time/space needed for safer control."},
+{t:"Emergency Vehicles",i:"🚑",e:"Respond calmly and make room according to applicable traffic rules.",p:["Stay alert for sirens and warning signals.","Avoid sudden unsafe movements.","Follow applicable right-of-way and road rules."],s:"Predictable, calm behavior is safer than a rushed reaction.",m:"Creating a new hazard while trying to move out of the way.",q:"What should you prioritize around an emergency vehicle?",a:"A calm, predictable response that follows applicable road rules."},
+{t:"Fatigue",i:"😴",e:"Fatigue can reduce attention and reaction quality.",p:["Avoid starting a journey when too tired.","Take appropriate rest breaks on longer trips.","Do not rely on willpower to overcome severe fatigue."],s:"If you are too tired to drive safely, do not continue driving.",m:"Using music or caffeine as a substitute for adequate rest.",q:"What is the safest choice when seriously fatigued?",a:"Do not drive until you are fit and rested enough to do so safely."}
+];
+let currentTopic=0;
+function renderTopics(){
+ const list=document.getElementById("topicList");
+ list.innerHTML=topics.map((x,i)=>`<button class="topic-btn ${i===currentTopic?"active":""}" onclick="selectTopic(${i})">${x.i} ${x.t}</button>`).join("");
+ const x=topics[currentTopic];
+ document.getElementById("topicDetail").innerHTML=`<div style="font-size:2rem">${x.i}</div><h2>${x.t}</h2><p class="muted">${x.e}</p><h3>Important points</h3><ul>${x.p.map(v=>`<li>${v}</li>`).join("")}</ul><div class="notice"><b>Safety tip:</b> ${x.s}</div><p style="margin-top:15px"><b>Common mistake:</b> ${x.m}</p><button class="btn primary small" onclick="markLearning(${currentTopic})">Mark topic complete</button><button class="btn small" style="margin-left:7px" onclick="quickKnowledge(${currentTopic})">Quick question</button>`;
+}
+function selectTopic(i){currentTopic=i;renderTopics()}
+function markLearning(i){state.learning[topics[i].t]=true;saveState();toast("Topic marked complete");renderTopics()}
+function quickKnowledge(i){openModal(`<div><span class="eyebrow">Quick knowledge</span><h2>${topics[i].q}</h2><button class="btn primary" onclick="this.nextElementSibling.classList.remove('hidden');this.disabled=true">Reveal answer</button><div class="notice hidden" style="margin-top:14px"><b>Answer:</b> ${topics[i].a}</div></div>`)}
+renderTopics();
+
+/* ---------- Road signs ---------- */
+const signs=[
+{n:"Stop",c:"Mandatory / Regulatory",v:"STOP",m:"Come to a complete stop where required.",a:"Stop safely and proceed only when it is permitted and safe."},
+{n:"No Entry",c:"Mandatory / Regulatory",v:"↕",m:"Entry is prohibited in the indicated direction.",a:"Do not enter where the restriction applies."},
+{n:"Speed Restriction",c:"Mandatory / Regulatory",v:"50",m:"Indicates a speed-related restriction where applicable.",a:"Follow the applicable restriction and adapt to conditions."},
+{n:"Give Way",c:"Mandatory / Regulatory",v:"▼",m:"Indicates that priority must be given as applicable.",a:"Slow and give way according to the road situation and rules."},
+{n:"Caution / Hazard",c:"Warning / Cautionary",v:"!",m:"Warns of a hazard or condition ahead.",a:"Reduce speed and increase attention."},
+{n:"Pedestrian Crossing",c:"Warning / Cautionary",v:"🚶",m:"Alerts road users to pedestrian activity/crossing.",a:"Scan carefully and be prepared to yield or stop where required."},
+{n:"School / Children",c:"Warning / Cautionary",v:"🏫",m:"Warns of a location where children may be present.",a:"Use extra caution and manage speed appropriately."},
+{n:"Slippery Road",c:"Warning / Cautionary",v:"〰",m:"Warns that road grip may be reduced.",a:"Use smooth control inputs and adapt speed."},
+{n:"Hospital / Medical",c:"Informatory",v:"H",m:"Provides information about a medical facility or service.",a:"Use the information to orient yourself and drive appropriately."},
+{n:"Parking Information",c:"Informatory",v:"P",m:"Provides information about parking.",a:"Check any accompanying restrictions or conditions."},
+{n:"Direction Information",c:"Informatory",v:"→",m:"Provides route or directional information.",a:"Read the sign early and make safe, legal decisions."},
+{n:"Fuel / Service",c:"Informatory",v:"⛽",m:"Provides information about a service location.",a:"Use the information for planning rather than sudden maneuvers."}
+];
+let signFilter="All";
+function renderSignFilters(){document.getElementById("signFilters").innerHTML=["All","Mandatory / Regulatory","Warning / Cautionary","Informatory"].map(c=>`<button class="chip ${signFilter===c?"active":""}" onclick="signFilter='${c}';renderSigns()">${c}</button>`).join("")}
+function renderSigns(){
+ renderSignFilters();const q=document.getElementById("signSearch").value.toLowerCase();
+ const arr=signs.filter(s=>(signFilter==="All"||s.c===signFilter)&&`${s.n} ${s.m} ${s.a}`.toLowerCase().includes(q));
+ document.getElementById("signGrid").innerHTML=arr.length?arr.map(s=>`<div class="card sign-card clickable" onclick='openSign(${JSON.stringify(s)})'><div class="sign ${s.c.startsWith("Mandatory")?"mandatory":s.c.startsWith("Warning")?"warning":"info"}"><span>${s.v}</span></div><h3>${s.n}</h3><small>${s.c}</small><p style="margin-top:9px">${s.m}</p></div>`).join(""):`<div class="card center" style="grid-column:1/-1"><h3>No signs found</h3><p class="muted">Try another search or category.</p></div>`;
+}
+function openSign(s){openModal(`<div><span class="eyebrow">${s.c}</span><h2>${s.n}</h2><div class="notice"><b>Meaning:</b> ${s.m}</div><p><b>What should you do?</b> ${s.a}</p></div>`)}
+function startSignTest(){
+ const s=signs[Math.floor(Math.random()*signs.length)];
+ openModal(`<div><span class="eyebrow">Sign Challenge</span><h2>What does this sign communicate?</h2><div class="center"><div class="sign ${s.c.startsWith("Mandatory")?"mandatory":s.c.startsWith("Warning")?"warning":"info"}" style="margin:20px auto"><span>${s.v}</span></div></div><div class="actions"><button class="btn primary" onclick="this.parentElement.nextElementSibling.classList.remove('hidden');this.disabled=true">Reveal</button></div><div class="notice hidden" style="margin-top:14px"><b>${s.n}</b><br>${s.m}<br><br>${s.a}</div></div>`);
+}
+renderSigns();
+
+/* ---------- Quiz engine ---------- */
+const questions=[
+["Which action best supports safe following distance?","Follow closely so other vehicles cannot merge.","Keep enough space to react if traffic changes.","Match the vehicle ahead exactly.","Drive as close as possible at all times." ,"Safe Driving","Keeping space improves reaction time."],
+["A phone notification appears while you are driving. What is safer?","Read it quickly.","Hold the phone below the window line.","Ignore it until you can safely stop.","Ask another driver to pass you the phone while moving.","Road Safety","Avoid interacting with a phone while moving."],
+["What should you do near a pedestrian crossing?","Accelerate to clear it.","Scan carefully and be prepared to yield or stop where required.","Use the horn continuously.","Ignore pedestrians until they step into your lane.","Pedestrian Safety","Vulnerable road users need careful attention."],
+["Rain can affect driving by changing:","Only the vehicle's fuel consumption.","Visibility and available grip.","The color of traffic signs.","The number of lanes.","Safe Driving","Wet conditions can affect visibility and grip."],
+["A warning sign generally means you should:","Treat it as decoration.","Increase attention and adapt your driving.","Ignore it if traffic is light.","Always stop immediately regardless of context.","Road Signs","Warning signs alert you to conditions or hazards."],
+["An informatory sign primarily provides:","A guaranteed right of way.","Information such as services or directions.","A personal instruction from another driver.","A replacement for traffic signals.","Road Signs","Informatory signs communicate useful road information."],
+["Why is predictable lane positioning useful?","It lets you avoid all indicators.","It helps other road users anticipate your movement.","It guarantees no collisions.","It means you never need to check surroundings.","Traffic Rules","Predictability supports safer interaction."],
+["If visibility becomes poor, the safer response is to:","Maintain speed to avoid delay.","Adapt speed and increase attention.","Turn off all lights.","Drive closer to the vehicle ahead.","Traffic Rules","Reduced visibility requires more cautious driving."],
+["What is a good fatigue-management decision?","Continue because the destination is close.","Use loud music as a substitute for rest.","Do not drive when seriously fatigued.","Speed up to finish sooner.","Defensive Driving","Severe fatigue can impair attention and reaction."],
+["What is the main purpose of a learner stage?","To avoid learning road rules.","To support learning and preparation before full driving privileges.","To guarantee a driving licence.","To replace practical learning.","Licence Knowledge","The learner stage is part of learning and preparation."],
+["For current licence fees and procedures, you should:","Trust an old social-media post.","Use an unofficial list from memory.","Verify current information through official government/RTO sources.","Assume all states and times are identical.","Licence Knowledge","Regulatory details can change."],
+["A seat belt should be treated as:","Optional on short trips.","A routine protective measure where provided.","Only necessary on highways.","Useful only for the driver.","Road Safety","Routine restraint use is a core safety habit."],
+["When an emergency vehicle approaches, the safest general principle is to:","React suddenly without checking surroundings.","Remain calm, predictable and follow applicable road rules.","Race ahead of it.","Block the road so it cannot pass.","Traffic Rules","A calm and legal response avoids creating another hazard."],
+["At night, safe driving includes:","Ignoring visibility limits.","Adapting speed and scanning for less-visible hazards.","Driving only by memory.","Following extremely closely.","Defensive Driving","Night conditions can reduce visibility."],
+["A slippery-road warning should encourage you to:","Use abrupt steering.","Adapt speed and use smoother control inputs.","Brake as hard as possible in every situation.","Ignore road conditions.","Road Signs","Reduced grip calls for smoother, cautious control."],
+["If you are a beginner rider in challenging conditions, a sensible approach is to:","Take extra care and avoid unnecessary risk.","Test the limits of the vehicle.","Copy the fastest rider.","Use the phone for navigation while moving.","Defensive Driving","Experience and conditions should inform conservative decisions."],
+["What is a safer approach to overtaking?","Overtake whenever you feel impatient.","Only consider it when legal, visible, controlled and safe.","Overtake near a crossing.","Overtake without checking surroundings.","Traffic Rules","Overtaking requires legality, visibility and control."],
+["What is a useful safety principle around school areas?","Expect children and other vulnerable road users.","Assume everyone will behave predictably.","Accelerate through quickly.","Focus only on vehicles.","Pedestrian Safety","Children can be unpredictable and vulnerable."],
+["Why should a rider secure protective equipment correctly?","Because appearance is important.","Because proper fit and secure use improve its protective role.","Because it increases speed.","Because it replaces safe riding.","Road Safety","Protective equipment works best when correctly used."],
+["If a road surface is wet, you should generally:","Allow less space.","Adapt speed and allow more room to respond.","Make sudden steering changes.","Assume grip is unchanged.","Safe Driving","Wet conditions can increase stopping and control challenges."],
+["Which is an appropriate response to an unfamiliar road sign?","Guess and accelerate.","Reduce uncertainty by reading it carefully and adapting safely.","Ignore it.","Ask a phone while driving.","Road Signs","Reading and responding calmly is safer than guessing."],
+["What should you do before a longer journey if you feel very tired?","Start and hope it improves.","Rest and avoid driving until fit enough.","Drink something and drive faster.","Turn up music and continue.","Defensive Driving","Fatigue can seriously affect safe driving."],
+["Why should drivers scan beyond the vehicle directly ahead?","To predict and respond to developing hazards.","To avoid seeing signs.","To make the trip slower.","There is no reason.","Safe Driving","Looking ahead helps anticipate changes."],
+["Which source is most appropriate for current licence requirements?","A random forwarded message.","An old forum post.","The relevant official government/RTO source.","A practice quiz.","Licence Knowledge","Current official sources are the appropriate authority."],
+["What is the purpose of this SafeRoute practice test?","To guarantee an official licence.","To provide educational practice and awareness.","To replace official testing.","To provide legal advice.","Licence Knowledge","The platform is educational and not an official test."]
+].map((q,i)=>({id:i+1,q:q[0],opts:q.slice(1,5),cat:q[5],exp:q[6],answer:Math.floor(Math.random()*0)+0}));
+/* answer indexes are defined separately to keep question wording readable */
+const answers=[1,2,1,1,1,1,1,1,2,1,2,1,1,1,1,0,1,0,1,1,1,1,0,2,1];
+questions.forEach((q,i)=>q.answer=answers[i]);
+let quiz={mode:"",items:[],index:0,answers:{},timer:null,seconds:0};
+function shuffled(arr){return [...arr].sort(()=>Math.random()-.5)}
+function startQuiz(mode){
+ clearInterval(quiz.timer);
+ const count=mode==="quick"?10:mode==="standard"?20:25;
+ quiz={mode,items:shuffled(questions).slice(0,count),index:0,answers:{},timer:null,seconds:mode==="mock"?15*60:0};
+ document.getElementById("quizHome").classList.add("hidden");document.getElementById("quizArea").classList.remove("hidden");
+ if(mode==="mock")quiz.timer=setInterval(()=>{quiz.seconds--;renderQuiz();if(quiz.seconds<=0){clearInterval(quiz.timer);finishQuiz(true)}},1000);
+ renderQuiz();go("#practice");
+}
+function renderQuiz(){
+ const q=quiz.items[quiz.index], chosen=quiz.answers[q.id];
+ const mins=Math.floor(quiz.seconds/60).toString().padStart(2,"0"), secs=(quiz.seconds%60).toString().padStart(2,"0");
+ document.getElementById("quizArea").innerHTML=`<div class="card">
+ <div class="quiz-top"><div><b>${quiz.mode==="mock"?"Mock Test":quiz.mode==="quick"?"Quick Practice":"Standard Practice"}</b><br><span class="muted">Question ${quiz.index+1} / ${quiz.items.length}</span></div>${quiz.mode==="mock"?`<div class="timer">⏱ ${mins}:${secs}</div>`:""}</div>
+ <div class="progress"><i style="width:${((quiz.index+1)/quiz.items.length)*100}%"></i></div>
+ <h2 style="margin-top:25px">${q.q}</h2>
+ <div class="options">${q.opts.map((o,i)=>`<button class="option ${chosen===i?"selected":""}" onclick="chooseAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div>
+ <div id="answerFeedback"></div>
+ <div class="quiz-controls"><button class="btn" onclick="prevQuestion()" ${quiz.index===0?"disabled":""}>← Previous</button><button class="btn danger" onclick="exitQuiz()">Exit</button>${quiz.index===quiz.items.length-1?`<button class="btn primary" onclick="finishQuiz()">Submit Test</button>`:`<button class="btn primary" onclick="nextQuestion()">Next →</button>`}</div>
+ </div>`;
+ if(chosen!==undefined){
+   document.querySelectorAll(".option").forEach((el,i)=>el.classList.toggle(i===q.answer?"correct":i===chosen?"wrong":"",true));
+   document.getElementById("answerFeedback").innerHTML=`<div class="notice" style="margin:15px 0"><b>${chosen===q.answer?"Correct":"Review"}:</b> ${q.exp}</div>`;
+ }
+}
+function chooseAnswer(i){quiz.answers[quiz.items[quiz.index].id]=i;renderQuiz()}
+function nextQuestion(){if(quiz.answers[quiz.items[quiz.index].id]===undefined){toast("Select an answer first.");return}if(quiz.index<quiz.items.length-1){quiz.index++;renderQuiz()}}
+function prevQuestion(){if(quiz.index>0){quiz.index--;renderQuiz()}}
+function exitQuiz(){clearInterval(quiz.timer);document.getElementById("quizArea").classList.add("hidden");document.getElementById("quizHome").classList.remove("hidden");toast("Practice session exited.")}
+function finishQuiz(timeUp=false){
+ clearInterval(quiz.timer);
+ let correct=0;const cats={};
+ quiz.items.forEach(q=>{const selected=quiz.answers[q.id];if(!cats[q.cat])cats[q.cat]={c:0,t:0};cats[q.cat].t++;if(selected===q.answer){correct++;cats[q.cat].c++}});
+ const total=quiz.items.length, accuracy=Math.round(correct/total*100);
+ state.tests.push({date:new Date().toISOString(),mode:quiz.mode,total,correct,accuracy,cats});
+ state.questionsAttempted+=total;state.correctAnswers+=correct;state.bestScore=Math.max(state.bestScore,accuracy);
+ Object.entries(cats).forEach(([cat,v])=>{const old=state.topicScores[cat]||{c:0,t:0};state.topicScores[cat]={c:old.c+v.c,t:old.t+v.t}});
+ unlockAchievements();
+ saveState();
+ document.getElementById("quizArea").innerHTML=`<div class="card center"><span class="eyebrow">${timeUp?"Time expired":"Test complete"}</span><div class="result-score">${accuracy}%</div><p class="muted">Safety Score</p>
+ <div class="result-grid"><div class="metric"><small>Correct</small><strong>${correct}</strong></div><div class="metric"><small>Incorrect</small><strong>${total-correct}</strong></div><div class="metric"><small>Questions</small><strong>${total}</strong></div></div>
+ <h3 style="text-align:left;margin-top:25px">Category performance</h3>${Object.entries(cats).map(([cat,v])=>{const p=Math.round(v.c/v.t*100);return `<div class="bar-row"><span>${cat}</span><div class="bar"><i style="width:${p}%"></i></div><b>${p}%</b></div>`}).join("")}
+ <div class="notice" style="text-align:left;margin-top:18px"><b>Recommended next step</b><br>${recommendation(cats)}</div>
+ <div class="actions" style="justify-content:center"><button class="btn primary" onclick="startQuiz('quick')">Practice Again</button><button class="btn" onclick="go('#dashboard')">Open Dashboard</button></div></div>`;
+ updateDashboard();
+}
+function recommendation(cats){
+ const weak=Object.entries(cats).sort((a,b)=>a[1].c/a[1].t-b[1].c/b[1].t)[0];
+ if(!weak)return"Keep learning and practice consistently.";
+ const [cat,v]=weak,p=Math.round(v.c/v.t*100);
+ if(p<60&&cat==="Licence Knowledge")return"Revise the Licence Guide and take the Licence Knowledge practice test.";
+ if(p<60&&cat==="Road Signs")return"Review Road Signs and take the Sign Challenge.";
+ if(p<60)return`Prioritize ${cat} revision, then retake a practice test.`;
+ if(p<80)return`Keep practicing ${cat} to move from Needs Practice to Strong.`;
+ return`Your strongest area is ${cat}. Maintain it while revising other topics.`;
+}
+
+/* ---------- Scenarios ---------- */
+const scenarios=[
+{title:"Pedestrian crossing ahead",icon:"🚶",desc:"You approach a marked pedestrian crossing. Someone is waiting near the crossing while traffic is moving.",choices:[["Continue without changing speed","Ignoring the situation can reduce your time to respond.",0],["Scan, reduce speed as appropriate and be prepared to yield/stop where required","This keeps attention on the vulnerable road user and preserves response time.",10],["Use the phone to check the route","Phone interaction creates distraction.",0]]},
+{title:"Riding during rain",icon:"🌧️",desc:"Rain begins during your two-wheeler journey. The road surface looks wet and visibility is changing.",choices:[["Keep the same pace","Conditions have changed, so the same pace may not provide the same safety margin.",0],["Adapt speed, increase space and use smooth control inputs","This responds to reduced grip and visibility.",10],["Accelerate to finish quickly","Rushing increases risk.",0]]},
+{title:"Night driving",icon:"🌙",desc:"You are driving after dark and visibility is lower than during daytime.",choices:[["Drive at the same speed regardless of visibility","Speed should be adapted to conditions.",0],["Increase attention and adapt speed to visibility","This provides more time to detect and respond to hazards.",10],["Follow very closely so you can copy the vehicle ahead","Following closely removes reaction space.",0]]},
+{title:"Emergency vehicle approaching",icon:"🚑",desc:"You hear a warning signal from an emergency vehicle approaching from behind.",choices:[["Make a sudden move without checking","A rushed maneuver can create another hazard.",0],["Stay calm, check surroundings and follow applicable road rules to make room safely","Predictable action reduces risk.",10],["Race ahead of it","This does not create a safe path.",0]]},
+{title:"Mobile phone distraction",icon:"📵",desc:"Your phone vibrates with an important-looking notification while you are moving.",choices:[["Read it quickly","Even a short glance diverts attention.",0],["Ignore it until you can safely stop","This keeps attention on driving.",10],["Hold it low and read while steering","The distraction remains.",0]]},
+{title:"Sudden obstacle",icon:"⚠️",desc:"A hazard appears ahead and you have limited time to react.",choices:[["Make a controlled response while maintaining awareness of surroundings","A controlled response is safer than panic.",10],["Close your eyes and hope it clears","This removes useful visual information.",0],["Immediately swerve without checking","An uncontrolled swerve can create another hazard.",0]]}
+];
+let scenarioIndex=0;
+function renderScenario(){
+ const s=scenarios[scenarioIndex];
+ document.getElementById("scenarioArea").innerHTML=`<div class="scenario-grid"><div class="card"><div style="font-size:4rem">${s.icon}</div><span class="eyebrow">Scenario ${scenarioIndex+1} / ${scenarios.length}</span><h2>${s.title}</h2><p class="muted">${s.desc}</p></div><div class="card"><h3>What would you do?</h3><div class="choice-grid">${s.choices.map((c,i)=>`<button class="choice" onclick="answerScenario(${i})">${c[0]}</button>`).join("")}</div><div id="scenarioFeedback"></div></div></div>`;
+}
+function answerScenario(i){
+ const s=scenarios[scenarioIndex], c=s.choices[i];
+ state.scenarioScores.push(c[1]);saveState();unlockAchievements();
+ document.getElementById("scenarioFeedback").innerHTML=`<div class="notice" style="margin-top:15px;border-color:${c[1]?"rgba(53,208,127,.4)":"rgba(255,92,104,.4)"}"><b>${c[1]?"Safer choice":"Less safe choice"}</b><br>${c[1]?"Safety points awarded: +10":"Safety points awarded: +0"}<br>${c[1]?"Why it is safer":"Why to reconsider"}: ${c[2]}</div><div class="actions"><button class="btn primary" onclick="scenarioIndex=(scenarioIndex+1)%scenarios.length;renderScenario()">Next Scenario →</button></div>`;
+}
+renderScenario();
+
+/* ---------- Safe Journey ---------- */
+function assessJourney(){
+ const mode=document.getElementById("jMode").value,time=document.getElementById("jTime").value,weather=document.getElementById("jWeather").value,road=document.getElementById("jRoad").value,exp=document.getElementById("jExp").value;
+ let score=100,factors=[];
+ const add=(n,r)=>{score-=n;factors.push(r)};
+ if(time==="Night")add(12,"Night travel");
+ if(weather==="Rain")add(12,"Rain");
+ if(weather==="Low Visibility")add(18,"Low visibility");
+ if(road==="Wet")add(8,"Wet road");
+ if(road==="Poor Visibility")add(12,"Poor visibility");
+ if(mode==="Two-Wheeler")add(8,"Two-wheeler travel");
+ if(mode==="Bicycle")add(5,"Bicycle travel");
+ if(exp==="Beginner")add(8,"Beginner experience");
+ score=Math.max(20,Math.min(100,score));
+ const risk=score>=80?"Low":score>=60?"Moderate":"High";
+ const rec=[];
+ if(time==="Night")rec.push("Increase attention and adapt speed to visibility.");
+ if(weather!=="Clear"||road!=="Normal")rec.push("Allow more time and space for changing conditions.");
+ if(mode==="Two-Wheeler"||mode==="Bicycle")rec.push("Use appropriate protective equipment and maintain visibility.");
+ if(exp==="Beginner")rec.push("Prefer conservative decisions and avoid unnecessary risk.");
+ rec.push("Avoid phone use while moving and follow road signs and applicable rules.");
+ state.scenarioScores.push(score);saveState();unlockAchievements();
+ document.getElementById("journeyResult").classList.remove("hidden");
+ document.getElementById("journeyResult").innerHTML=`<div class="card center"><span class="eyebrow">Scenario-based assessment</span><div class="score-ring" style="--score:${score}%"><span>${score}</span></div><h2>${risk} risk profile</h2><p class="muted">This is an educational scenario score, not a real-time traffic or route prediction.</p><div class="notice" style="text-align:left"><b>Factors affecting the result</b><ul>${(factors.length?factors:["No elevated scenario factors selected."]).map(f=>`<li>${f}</li>`).join("")}</ul><b>Recommendations</b><ul>${rec.map(r=>`<li>${r}</li>`).join("")}</ul></div></div>`;
+}
+
+/* ---------- What-if simulator ---------- */
+function calcWhatIf(){
+ const vehicle=document.getElementById("wVehicle").value,time=+document.getElementById("wTime").value,weather=+document.getElementById("wWeather").value,exp=+document.getElementById("wExp").value;
+ document.getElementById("wTimeLabel").textContent=time?"Night":"Day";document.getElementById("wWeatherLabel").textContent=weather?"Rain":"Clear";document.getElementById("wExpLabel").textContent=exp?"Experienced":"Beginner";
+ let score=92,f=[];
+ if(time){score-=12;f.push("Night travel")}
+ if(weather){score-=14;f.push("Rain")}
+ if(vehicle==="Two-Wheeler"){score-=8;f.push("Two-wheeler")}
+ if(vehicle==="Bicycle"){score-=5;f.push("Bicycle")}
+ if(vehicle==="Walking"){score+=3}
+ if(!exp){score-=8;f.push("Beginner")}
+ score=Math.max(20,Math.min(100,score));
+ const risk=score>=80?"Low":score>=60?"Moderate":"High";
+ document.getElementById("whatRing").style.setProperty("--score",score+"%");
+ document.getElementById("whatScore").textContent=score;document.getElementById("whatRisk").textContent=risk+" scenario risk";
+ document.getElementById("whatText").textContent="Changing environmental and behavior factors can affect the scenario-based safety assessment.";
+ document.getElementById("whatFactors").innerHTML="<b>Factors</b><br>"+(f.length?f.map(x=>"• "+x).join("<br>"):"• No elevated factors selected.");
+}
+calcWhatIf();
+
+/* ---------- Dashboard / achievements ---------- */
+const badgeDefs=[
+["first","🏁","First Test",()=>state.tests.length>=1],
+["sign","🚥","Sign Master",()=>state.tests.some(t=>t.cats&&t.cats["Road Signs"]&&t.cats["Road Signs"].c>=3)],
+["learn","🛡️","Safety Learner",()=>Object.keys(state.learning).length>=5],
+["accuracy","🎯","80% Accuracy",()=>state.bestScore>=80],
+["champ","🏆","Safety Champion",()=>state.bestScore>=90&&state.tests.length>=3],
+["streak","🔥","Practice Streak",()=>state.tests.length>=3]
+];
+function unlockAchievements(){badgeDefs.forEach(b=>{if(b[3]())state.achievements[b[0]]=true})}
+function updateDashboard(){
+ const total=state.questionsAttempted,acc=total?Math.round(state.correctAnswers/total*100):0;
+ const scenario=state.scenarioScores.length?Math.round(state.scenarioScores.reduce((a,b)=>a+b,0)/state.scenarioScores.length):null;
+ document.getElementById("dSafety").textContent=scenario===null?"—":scenario;
+ document.getElementById("dAccuracy").textContent=total?acc+"%":"—";
+ document.getElementById("dTests").textContent=state.tests.length;
+ document.getElementById("dQuestions").textContent=total;
+ document.getElementById("heroSafety").textContent=scenario===null?"—":scenario;
+ document.getElementById("heroAccuracy").textContent=total?acc+"%":"—";
+ const chart=document.getElementById("topicChart"), entries=Object.entries(state.topicScores);
+ chart.innerHTML=entries.length?entries.map(([k,v])=>{const p=Math.round(v.c/v.t*100);return `<div class="bar-row"><span>${k}</span><div class="bar"><i style="width:${p}%"></i></div><b>${p}%</b></div>`}).join(""):`<p class="muted">Complete a practice test to see topic performance.</p>`;
+ const done=Object.values(state.learning).filter(Boolean).length;
+ document.getElementById("learningChart").innerHTML=`<div class="bar-row"><span>Topics</span><div class="bar"><i style="width:${done/topics.length*100}%"></i></div><b>${done}/${topics.length}</b></div>`;
+ let strongest="—",weakest="—";
+ if(entries.length){const sorted=[...entries].sort((a,b)=>b[1].c/b[1].t-a[1].c/a[1].t);strongest=sorted[0][0];weakest=sorted[sorted.length-1][0]}
+ document.getElementById("insights").innerHTML=`<p><b>Strongest topic:</b> ${strongest}</p><p><b>Weakest topic:</b> ${weakest}</p><p class="muted">${recommendation(Object.fromEntries(entries.map(([k,v])=>[k,v])))}</p>`;
+ document.getElementById("badges").innerHTML=badgeDefs.map(b=>`<div class="badge ${state.achievements[b[0]]?"unlocked":""}"><div style="font-size:1.7rem">${b[1]}</div><b>${b[2]}</b><br><small>${state.achievements[b[0]]?"Unlocked":"Locked"}</small></div>`).join("");
+}
+function resetProgress(){
+ if(confirm("Reset all SafeRoute progress stored in this browser?")){
+   localStorage.removeItem(STORE_KEY);state={...defaultState};applyTheme();updateDashboard();toast("Progress reset.");
+ }
+}
+updateDashboard();
+
+/* ---------- Modal ---------- */
+function openModal(html){document.getElementById("modalContent").innerHTML=html;document.getElementById("modal").classList.add("open")}
+function closeModal(){document.getElementById("modal").classList.remove("open")}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+
+/* ---------- Global search shortcut: "/" ---------- */
+document.addEventListener("keydown",e=>{
+ if(e.key==="/"&&document.activeElement.tagName!=="INPUT"&&document.activeElement.tagName!=="SELECT"){
+   e.preventDefault();document.getElementById("signSearch").focus();go("#signs");
+ }
+});
+
+/* Keep active nav approximately aligned with current section. */
+const navObserver=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){const id="#"+e.target.id;document.querySelectorAll(".navlinks a").forEach(a=>a.classList.toggle("active",a.getAttribute("href")===id))}}),{rootMargin:"-35% 0px -55% 0px"});
+document.querySelectorAll("main section[id]").forEach(s=>navObserver.observe(s));
+</script>
+</body>
+</html>
